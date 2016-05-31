@@ -1,9 +1,11 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <!-- Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -16,6 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
     <!-- /Bootstrap -->
+
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
     <script>
         var chart;
@@ -51,23 +57,10 @@
                 }
             };
             
-           /*$.getJSON('https://api.thingspeak.com/channels/115228/fields/2.json?results=1000', function (d) {
-                Console.lo
-                
-                var i;                
-                var data = [];
-                for(i=0 ; i<d.feeds.length ; i++){
-                    data.push([Date.parse(d.feeds[i].created_at), parseFloat(d.feeds[i].field2)]);
-                }
-                
-                options.series[0].data = data;
-
-                chart = new Highcharts.Chart(options);
-            });*/
-            setTimespan(3);
+            setTimeperiod(3);
         });
     
-        function setTimespan(hours){
+        function setTimeperiod(hours){
             console.log("Load data...")
             $.getJSON('https://api.thingspeak.com/channels/115228/fields/2.json?results=1000', function (d) {
                 console.log("Looping through " + d.feeds.length + " datapoints.");
@@ -117,16 +110,16 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#" onclick="setTimespan(3);">3 timmar</a></li>
-                    <li><a href="#" onclick="setTimespan(12);">12 timmar</a></li>
-                    <li><a href="#" onclick="setTimespan(24*7);">7 dagar</a></li>
+                    <li><a href="#" onclick="setTimeperiod(3);">3 timmar</a></li>
+                    <li><a href="#" onclick="setTimeperiod(12);">12 timmar</a></li>
+                    <li><a href="#" onclick="setTimeperiod(24*7);">7 dagar</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
     </nav>
-    <div class="container">
-        <div id="temperatureChart" style="width: 94%; height: 92%; margin: 25px;"></div>
+    <div class="container-fluid">
+        <div id="temperatureChart" xstyle="width: 94%; height: 92%; margin: 25px;"></div>
     </div>
 </body>
 
