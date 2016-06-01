@@ -19,6 +19,7 @@
         crossorigin="anonymous"></script>
     <!-- /Bootstrap -->
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -29,7 +30,7 @@
         
         $(function () {
             console.log("Settingup chart");
-            Highcharts.setOptions({ global: { useUTC: true } });
+            Highcharts.setOptions({ global: { useUTC: false } });
 
             var chartType = 'line';
 
@@ -54,25 +55,21 @@
                         month: '%b %e, %Y',
                         year: '%Y'
                     }
-                }
+                }                
             };
             
             setTimeperiod(3);
         });
     
-        function setTimeperiod(hours){
-            console.log("Load data...")
-            $.getJSON('https://api.thingspeak.com/channels/115228/fields/2.json?results=1000', function (d) {
-                console.log("Looping through " + d.feeds.length + " datapoints.");
-                var i;
-                var timeFrom = Date.now() - (hours * 60 *60 * 1000);
-                
+        function setTimeperiod(hours){            
+            var startTime = moment().subtract(hours, 'hours');
+            console.log('Get data from: ', startTime.format('YYYY-MM-DD%20HH:mm:ss'));
+            
+            var url = 'https://api.thingspeak.com/channels/115228/fields/2.json?start=' + startTime.format('YYYY-MM-DD%20HH:mm:ss') + '&timezone=Europe/Stockholm'
+            $.getJSON(url, function (d) {
                 var data = [];
                 for(i=0 ; i<d.feeds.length ; i++){
-                    var pointTime = Date.parse(d.feeds[i].created_at) + (2 * 60 * 60 * 1000);
-                    if(pointTime >= timeFrom){
-                        data.push([pointTime, parseFloat(d.feeds[i].field2)]);
-                    }
+                    data.push([Date.parse(d.feeds[i].created_at), parseFloat(d.feeds[i].field2)]);
                 }
                 
                 console.log("Will show " + data.length + " datapoints.");
