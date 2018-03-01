@@ -2,7 +2,7 @@
 
 # DockerPI
 
-https://docs.docker.com/engine/reference/commandline/images/
+[https://docs.docker.com/engine/reference/commandline/images/](https://docs.docker.com/engine/reference/commandline/images/)
 
 Starta allt med
 
@@ -15,3 +15,5 @@ eller med:
 * docker start influxdb
 * docker start rabbitmq
 * docker start portainer
+
+[http://192.168.0.18:9000](http://192.168.0.18:9000)
